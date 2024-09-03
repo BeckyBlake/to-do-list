@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import CreateNewTask from "./components/CreateNewTask";
+import { db } from "./firebase";
 
 function App() {
   return (

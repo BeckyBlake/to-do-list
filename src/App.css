@@ -37,10 +37,32 @@
   }
 }
 
-.form-div {
-  padding: 10px;
+
+.new-task {
+  display: inline-block;
+  justify-content: center;
+  align-items: center; 
 }
 
-.form-element {
-  margin-left: 10px;
+label {
+  padding-right: 10px;
+}
+
+.task-div {
+  margin: 10px;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.btn {
+  padding: 10px 1rem;
+  background: #334;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
 }
