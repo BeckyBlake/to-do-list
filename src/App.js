@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 function App() {
   const [tasks, setTasks] = useState([]);
 
+  const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+
   useEffect(() => {
     const fetchTasks = async () => {
       await getDocs(collection(db, "tasks")).then((querySnapshot) => {
@@ -61,7 +63,13 @@ function App() {
           </thead>
           <tbody>
             {tasks.map((task) => (
-              <tr key={task.id}>
+              <tr
+                key={task.id}
+                style={{
+                  backgroundColor:
+                    new Date(task.dueDate) <= tomorrow ? "#FFC7CE" : "",
+                }}
+              >
                 <td>{task.class}</td>
                 <td>{task.assignment}</td>
                 <td>{task.dueDate}</td>
