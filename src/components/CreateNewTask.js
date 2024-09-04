@@ -1,17 +1,17 @@
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
-function CreateNewTask() {
-  const [classname, setClassname] = useState("");
-  const [assignment, setAssignment] = useState("");
-  const [dueDate, setDueDate] = useState("");
+function CreateNewTask({ course, task, date, edit, editId }) {
+  const [classname, setClassname] = useState(course);
+  const [assignment, setAssignment] = useState(task);
+  const [dueDate, setDueDate] = useState(date);
 
   const addTask = async (e) => {
     try {
       const docRef = await addDoc(collection(db, "tasks"), {
-        class: classname,
-        assignment: assignment,
+        class: classname.trim(),
+        assignment: assignment.trim(),
         dueDate: dueDate,
       });
       console.log("Document written with ID: ", docRef.id);
@@ -24,9 +24,27 @@ function CreateNewTask() {
     window.location.reload();
   };
 
+  const updateTask = async (id) => {
+    try {
+      const docRef = doc(db, "tasks", id);
+
+      await updateDoc(docRef, {
+        class: classname.trim(),
+        assignment: assignment.trim(),
+        dueDate: dueDate,
+      });
+      console.log("Document successfully updated!");
+    } catch (error) {
+      console.error("Error updating document: ", error);
+    }
+    setClassname("");
+    setAssignment("");
+    setDueDate("");
+    window.location.reload();
+  };
+
   return (
     <div className="new-task-container">
-      <h2>Add new task</h2>
       <div className="new-task">
         <div className="form__item">
           <label htmlFor="class-input" className="form__label">
@@ -67,7 +85,17 @@ function CreateNewTask() {
           ></input>
         </div>
         <div className="btn-container">
-          <button type="submit" className="btn" onClick={addTask}>
+          <button
+            type="submit"
+            className="btn"
+            onClick={() => {
+              if (edit) {
+                updateTask(editId);
+              } else {
+                addTask();
+              }
+            }}
+          >
             Submit
           </button>
         </div>

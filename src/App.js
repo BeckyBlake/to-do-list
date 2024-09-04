@@ -3,31 +3,35 @@ import CreateNewTask from "./components/CreateNewTask";
 import { db } from "./firebase";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
+import edit from "./edit.svg";
+import Modal from "./components/Modal";
 
 function App() {
   const [tasks, setTasks] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [editing, setEditing] = useState();
 
   const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      await getDocs(collection(db, "tasks")).then((querySnapshot) => {
-        const newData = querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }));
+  const fetchTasks = async () => {
+    await getDocs(collection(db, "tasks")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
 
-        const data = newData.sort((a, b) => {
-          return new Date(a.dueDate) - new Date(b.dueDate);
-        });
-        setTasks(data);
+      const data = newData.sort((a, b) => {
+        return new Date(a.dueDate) - new Date(b.dueDate);
       });
-    };
+      setTasks(data);
+    });
+  };
+
+  useEffect(() => {
     fetchTasks();
   }, []);
 
   const deleteTask = async (id) => {
-    console.log("in here");
     console.log(id);
     const docRef = doc(db, "tasks", id);
 
@@ -41,6 +45,10 @@ function App() {
       });
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className="App">
       <link
@@ -49,7 +57,8 @@ function App() {
       ></link>
       <h1>Current Assignments</h1>
       <div>
-        <CreateNewTask />
+        <h2>Add New Assignment</h2>
+        <CreateNewTask course={""} task={""} date={""} edit={false} />
       </div>
       <div>
         <table className="styled-table">
@@ -58,6 +67,7 @@ function App() {
               <th>Class</th>
               <th>Assignment</th>
               <th>Due Date</th>
+              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -77,6 +87,18 @@ function App() {
                   <button
                     className="btn"
                     style={{ padding: "4px" }}
+                    onClick={() => {
+                      setOpen(true);
+                      setEditing(task);
+                    }}
+                  >
+                    <img src={edit} style={{ width: "10px" }} alt="logo" />
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className="btn"
+                    style={{ padding: "4px" }}
                     onClick={() => deleteTask(task.id)}
                   >
                     <i className="fa fa-trash-o"></i>
@@ -86,6 +108,7 @@ function App() {
             ))}
           </tbody>
         </table>
+        <Modal isOpen={open} onClose={handleClose} curTask={editing}></Modal>
       </div>
     </div>
   );
