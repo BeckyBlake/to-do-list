@@ -3,9 +3,9 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 function CreateNewTask() {
-  const [classname, setClassname] = useState();
-  const [assignment, setAssignment] = useState();
-  const [dueDate, setDueDate] = useState();
+  const [classname, setClassname] = useState("");
+  const [assignment, setAssignment] = useState("");
+  const [dueDate, setDueDate] = useState("");
 
   const addTask = async (e) => {
     try {
