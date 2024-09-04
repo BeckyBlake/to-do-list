@@ -39,9 +39,12 @@
 
 
 .new-task {
-  display: inline-block;
+  /* display: inline-block;
   justify-content: center;
-  align-items: center; 
+  align-items: center;  */
+  /* text-align: left; */
+  /* position: relative; */
+  
 }
 
 label {
@@ -50,7 +53,6 @@ label {
 
 .task-div {
   margin: 10px;
-  /* display: inline-flex; */
 }
 
 .btn-container {
@@ -67,17 +69,6 @@ label {
   border-radius: 5px;
   cursor: pointer;
 }
-
-/* .task-display-div {
-  display: inline-flex;
-} */
-.task-display-div h4 {
-  padding: 10px;
-}
-
-/* .tasks {
-  display: inline-flex
-} */
 
 .styled-table {
   border-collapse: collapse;
@@ -102,6 +93,7 @@ label {
 .styled-table th,
 .styled-table td {
     padding: 12px 15px;
+    text-align: center;
 }
 
 .styled-table tbody tr {
@@ -114,4 +106,58 @@ label {
 
 .styled-table tbody tr:last-of-type {
   border-bottom: 2px solid #009879;
+}
+
+h1 {
+  color: #009879;
+}
+
+h2 {
+  color: #334;
+}
+
+.form__item {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form__label {
+  font-weight: 600;
+  padding: 10px 0;
+  /* margin-right: 360px; */
+  text-align: left;
+}
+
+.form__input {
+  -webkit-appearance: none;
+
+  width: 100%;
+  max-width: 425px;
+
+  /* Fix for Safari/iOS date fields */
+  min-height: calc(0.9em + (0.8em * 2) + 0.6em);
+
+  padding: 0.8em;
+  font-size: 0.9em;
+  font-family: "Source Sans Pro", sans-serif;
+
+  outline: none;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+  transition: background 0.25s, border-color 0.25s, color 0.25s;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.form__input:focus {
+  background: #ffffff;
+}
+
+.form__input::placeholder {
+  color: #bbbbbb;
 }

@@ -28,28 +28,39 @@ function CreateNewTask() {
     <div className="new-task-container">
       <h2>Add new task</h2>
       <div className="new-task">
-        <div className="task-div">
-          <label htmlFor="class-input">Class</label>
+        <div className="form__item">
+          <label htmlFor="class-input" className="form__label">
+            Class
+          </label>
           <input
             id="class-input"
+            className="form__input"
             type="text"
             value={classname}
+            placeholder="Class"
             onChange={(e) => setClassname(e.target.value)}
           ></input>
         </div>
-        <div className="task-div">
-          <label htmlFor="assignment-input">Assignment</label>
+        <div className="form__item">
+          <label htmlFor="assignment-input" className="form__label">
+            Assignment
+          </label>
           <input
             id="assignment-input"
+            className="form__input"
             type="text"
             value={assignment}
+            placeholder="Assignment"
             onChange={(e) => setAssignment(e.target.value)}
           ></input>
         </div>
-        <div className="task-div">
-          <label htmlFor="date-input">Due Date</label>
+        <div className="form__item">
+          <label htmlFor="date-input" className="form__label">
+            Due Date
+          </label>
           <input
             id="date-input"
+            className="form__input form__input--small"
             type="date"
             value={dueDate}
             onChange={(e) => setDueDate(e.target.value)}
