@@ -8,7 +8,6 @@ function CreateNewTask() {
   const [dueDate, setDueDate] = useState();
 
   const addTask = async (e) => {
-    e.preventDefault();
     try {
       const docRef = await addDoc(collection(db, "tasks"), {
         class: classname,
@@ -22,6 +21,7 @@ function CreateNewTask() {
     setClassname("");
     setAssignment("");
     setDueDate("");
+    window.location.reload();
   };
 
   return (
