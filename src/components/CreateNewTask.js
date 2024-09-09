@@ -8,20 +8,25 @@ function CreateNewTask({ course, task, date, edit, editId }) {
   const [dueDate, setDueDate] = useState(date);
 
   const addTask = async (e) => {
-    try {
-      const docRef = await addDoc(collection(db, "tasks"), {
-        class: classname.trim(),
-        assignment: assignment.trim(),
-        dueDate: dueDate,
-      });
-      console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-      console.error("Error adding document: ", e);
+    if (classname.trim() === "" || assignment.trim() === "" || dueDate === "") {
+      console.log("bad");
+      window.alert("Must add class, assignment, and due date.");
+    } else {
+      try {
+        const docRef = await addDoc(collection(db, "tasks"), {
+          class: classname.trim(),
+          assignment: assignment.trim(),
+          dueDate: dueDate,
+        });
+        console.log("Document written with ID: ", docRef.id);
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+      setClassname("");
+      setAssignment("");
+      setDueDate("");
+      window.location.reload();
     }
-    setClassname("");
-    setAssignment("");
-    setDueDate("");
-    window.location.reload();
   };
 
   const updateTask = async (id) => {
