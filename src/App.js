@@ -32,6 +32,7 @@ function App() {
   }, []);
 
   const deleteTask = async (id) => {
+    setTasks((prev) => [...prev]);
     console.log(id);
     const docRef = doc(db, "tasks", id);
 
@@ -58,7 +59,13 @@ function App() {
       <h1>Current Assignments</h1>
       <div>
         <h2>Add New Assignment</h2>
-        <CreateNewTask course={""} task={""} date={""} edit={false} />
+        <CreateNewTask
+          course={""}
+          task={""}
+          date={""}
+          edit={false}
+          fetchTasks={fetchTasks}
+        />
       </div>
       <div>
         <table className="styled-table">

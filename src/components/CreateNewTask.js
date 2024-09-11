@@ -2,7 +2,7 @@ import { useState } from "react";
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 
-function CreateNewTask({ course, task, date, edit, editId }) {
+function CreateNewTask({ course, task, date, edit, editId, fetchTasks }) {
   const [classname, setClassname] = useState(course);
   const [assignment, setAssignment] = useState(task);
   const [dueDate, setDueDate] = useState(date);
@@ -25,7 +25,8 @@ function CreateNewTask({ course, task, date, edit, editId }) {
       setClassname("");
       setAssignment("");
       setDueDate("");
-      window.location.reload();
+      fetchTasks();
+      // window.location.reload();
     }
   };
 
@@ -45,7 +46,8 @@ function CreateNewTask({ course, task, date, edit, editId }) {
     setClassname("");
     setAssignment("");
     setDueDate("");
-    window.location.reload();
+    fetchTasks();
+    // window.location.reload();
   };
 
   return (
