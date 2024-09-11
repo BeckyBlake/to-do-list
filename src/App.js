@@ -115,7 +115,7 @@ function App() {
             ))}
           </tbody>
         </table>
-        <Modal isOpen={open} onClose={handleClose} curTask={editing}></Modal>
+        <Modal isOpen={open} onClose={handleClose} curTask={editing} fetchTasks={fetchTasks}></Modal>
       </div>
     </div>
   );

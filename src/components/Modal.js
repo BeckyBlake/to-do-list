@@ -1,8 +1,8 @@
 import React from "react";
 import CreateNewTask from "./CreateNewTask";
 
-const Modal = ({ isOpen, onClose, curTask }) => {
-  if (!isOpen) return null;
+const Modal = (props) => {
+  if (!props.isOpen) return null;
 
   return (
     <div
@@ -31,15 +31,17 @@ const Modal = ({ isOpen, onClose, curTask }) => {
         }}
       >
         <CreateNewTask
-          course={curTask.class}
-          task={curTask.assignment}
-          date={curTask.dueDate}
+          course={props.curTask.class}
+          task={props.curTask.assignment}
+          date={props.curTask.dueDate}
           edit={true}
-          editId={curTask.id}
+          editId={props.curTask.id}
+          fetchTasks={props.fetchTasks}
+          close={props.onClose}
         />
         <button
           className="btn"
-          onClick={onClose}
+          onClick={props.onClose}
           style={{
             position: "relative",
             marginLeft: "90%",
