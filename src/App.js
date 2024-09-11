@@ -11,7 +11,7 @@ function App() {
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState();
 
-  const tomorrow = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
+  const cur_date = new Date();
 
   const fetchTasks = async () => {
     await getDocs(collection(db, "tasks")).then((querySnapshot) => {
@@ -77,7 +77,7 @@ function App() {
                 key={task.id}
                 style={{
                   backgroundColor:
-                    new Date(task.dueDate) <= tomorrow ? "#FFC7CE" : "",
+                    new Date(task.dueDate) <= cur_date ? "#FFC7CE" : "",
                 }}
               >
                 <td>{task.class}</td>
