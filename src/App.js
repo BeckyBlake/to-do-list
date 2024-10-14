@@ -10,6 +10,10 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState();
+  const [classes, setClasses] = useState(new Set(["All"]));
+  const [filterClass, setFilterClass] = useState("All");
+  const [allTasks, setAllTasks] = useState([]);
+
 
   const tomorrow = new Date().getTime() + 24 * 60 * 60 * 1000;
 
@@ -24,6 +28,11 @@ function App() {
         return new Date(a.dueDate) - new Date(b.dueDate);
       });
       setTasks(data);
+      setAllTasks(data);
+      newData.forEach((datum) => {
+          setClasses(prevSet => new Set(prevSet).add(datum.class));
+      });
+      console.log(classes);
     });
   };
 
@@ -46,6 +55,10 @@ function App() {
       });
   };
 
+  useEffect(() => {
+    setTasks(() => filterClass === "All" ? allTasks : allTasks.filter((task) => task.class === filterClass));
+  }, [filterClass, allTasks]);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -66,6 +79,12 @@ function App() {
           edit={false}
           fetchTasks={fetchTasks}
         />
+      </div>
+      <div className="dropdown-container">
+        Filter by class:
+        <select name="select" onChange={(e) => setFilterClass(e.target.value)} className="btn">
+          {[...classes].map((c) => (<option value={c} selected={filterClass === c}>{c}</option>))}
+        </select>
       </div>
       <div>
         <table className="styled-table">
