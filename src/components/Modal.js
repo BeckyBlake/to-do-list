@@ -38,6 +38,7 @@ const Modal = (props) => {
           editId={props.curTask.id}
           fetchTasks={props.fetchTasks}
           close={props.onClose}
+          userId={props.userId}
         />
         <button
           className="btn"

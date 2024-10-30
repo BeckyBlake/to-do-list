@@ -1,14 +1,20 @@
 import "./App.css";
-import CreateNewTask from "./components/CreateNewTask";
-import { db } from "./firebase";
-import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import edit from "./edit.svg";
-import Modal from "./components/Modal";
-import { auth } from "./firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import CreateNewTask from "./components/CreateNewTask";
+import Modal from "./components/Modal";
 import Login from "./pages/auth/Login";
+import edit from "./edit.svg";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  query,
+  where,
+} from "firebase/firestore";
+import { db, auth } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -24,21 +30,43 @@ function App() {
   const fetchTasks = async () => {
     if (loading) return;
     if (!user) return;
-    await getDocs(collection(db, "tasks")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
+    // await getDocs(collection(db, "tasks")).then((querySnapshot) => {
+    //   const newData = querySnapshot.docs.map((doc) => ({
+    //     ...doc.data(),
+    //     id: doc.id,
+    //   }));
 
-      const data = newData.sort((a, b) => {
-        return new Date(a.dueDate) - new Date(b.dueDate);
-      });
-      setTasks(data);
-      setAllTasks(data);
-      newData.forEach((datum) => {
-        setClasses((prevSet) => new Set(prevSet).add(datum.class));
-      });
-      console.log(classes);
+    //   const data = newData.sort((a, b) => {
+    //     return new Date(a.dueDate) - new Date(b.dueDate);
+    //   });
+    //   setTasks(data.filter((task) => task.userId === user.uid));
+    //   setAllTasks(data.filter((task) => task.userId === user.uid));
+
+    //   newData.forEach((datum) => {
+    //     setClasses((prevSet) => new Set(prevSet).add(datum.class));
+    //   });
+    //   console.log(classes);
+    // });
+
+    const tasksQuery = query(
+      collection(db, "tasks"),
+      where("userId", "==", user.uid)
+    );
+    const querySnapshot = await getDocs(tasksQuery);
+
+    const newData = querySnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+
+    const data = newData.sort(
+      (a, b) => new Date(a.dueDate) - new Date(b.dueDate)
+    );
+    setTasks(data);
+    setAllTasks(data);
+
+    newData.forEach((datum) => {
+      setClasses((prevSet) => new Set(prevSet).add(datum.class));
     });
   };
 
@@ -98,6 +126,7 @@ function App() {
                     date={""}
                     edit={false}
                     fetchTasks={fetchTasks}
+                    userId={user.uid}
                   />
                 </div>
                 <div className="dropdown-container">
@@ -173,6 +202,7 @@ function App() {
                     onClose={handleClose}
                     curTask={editing}
                     fetchTasks={fetchTasks}
+                    userId={user.uid}
                   ></Modal>
                 </div>
               </div>
