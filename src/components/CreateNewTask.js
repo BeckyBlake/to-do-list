@@ -6,6 +6,7 @@ function CreateNewTask(props) {
   const [classname, setClassname] = useState(props.course);
   const [assignment, setAssignment] = useState(props.task);
   const [dueDate, setDueDate] = useState(props.date);
+  const [userId, setUserId] = useState(props.userId);
 
   const addTask = async (e) => {
     if (classname.trim() === "" || assignment.trim() === "" || dueDate === "") {
@@ -17,6 +18,7 @@ function CreateNewTask(props) {
           class: classname.trim(),
           assignment: assignment.trim(),
           dueDate: dueDate,
+          userId: userId,
         });
         console.log("Document written with ID: ", docRef.id);
       } catch (e) {
@@ -38,6 +40,7 @@ function CreateNewTask(props) {
         class: classname.trim(),
         assignment: assignment.trim(),
         dueDate: dueDate,
+        userId: userId,
       });
       console.log("Document successfully updated!");
     } catch (error) {
